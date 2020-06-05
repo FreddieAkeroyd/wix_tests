@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-    <Product Id="*" UpgradeCode="{547EDC3B-CD78-4D29-9E99-1C8831339F11}" Version="$(var.VersionLong)" Language="1033" Name="GENIE Python $(var.VersionShort)" Manufacturer="STFC ISIS Facility" >
-        <Package InstallerVersion="200" Compressed="yes" Keywords='Installer' Description="Test Installer" Manufacturer="STFC ISIS Facility" InstallScope="perMachine" />
+    <Product Id="*" UpgradeCode="{547EDC3B-CD78-4D29-9E99-1C8831339F11}" Version="$(var.VersionLong)" Language="1033" Name="Test $(var.VersionShort)" Manufacturer="TEST" >
+        <Package InstallerVersion="200" Compressed="yes" Keywords='Installer' Description="Test Installer" Manufacturer="TEST" InstallScope="perMachine" />
 
         <Feature Id="ProductComponents" Level="1" Title="Product Components" ConfigurableDirectory='INSTALLDIR'>
             <ComponentGroupRef Id="MyCG" />
