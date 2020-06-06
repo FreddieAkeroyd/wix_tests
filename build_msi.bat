@@ -19,7 +19,7 @@ if %errorlevel% neq 0 goto ERROR
 
 REM -sice:ICE60 is to stop font install warnings (from JRE)
 REM add  -ext WixUtilExtension  if using WixQuietExec
-"%WIXBIN%\light.exe" -sice:ICE60 -ext WixUIExtension test.wixobj
+"%WIXBIN%\light.exe" -sice:ICE60 -ext WixUIExtension -ext WixUtilExtension test.wixobj
 if %errorlevel% neq 0 goto ERROR
 
 

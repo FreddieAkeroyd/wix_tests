@@ -13,19 +13,19 @@
 
         <Property Id="WIXUI_INSTALLDIR" Value="INSTALLDIR" />
         <UIRef Id="WixUI_InstallDir" />
-        <Property Id='CMDEXE'>cmd.exe</Property>
 
-        <!--Property Id="WixSilentExecCmdLine" Value='"cmd.exe" /C "[INSTALLDIR]\msi_post_install.bat"' /-->
-        <!--CustomAction Id="PostCmd" Property='WixSilentExecCmdLine' Value='"cmd.exe" /C "[INSTALLDIR]\config_ipython.bat"'/>
-        <CustomAction Id="PostInstall" BinaryKey="WixCA" DllEntry="WixQuietExec" Execute="immediate" Return="check"/-->
-        <CustomAction Id='LaunchFile' Directory="INSTALLDIR" ExeCommand='"cmd.exe" /c "[INSTALLDIR]testfiles\test.bat"' Return='asyncNoWait' />
-        <InstallExecuteSequence>
-            <!--Custom Action='PostCmd' After='InstallFinalize' />
-            <Custom Action='PostInstall' After='InstallFinalize' /-->
-			
+        <CustomAction Id="MyAction.SetProperty" Return="check" Property="WixQuietExecCmdLine" Value='"[SystemFolder]cmd.exe" /C "[INSTALLDIR]testfiles\test.bat"' />
+        <CustomAction Id="LaunchFile1" BinaryKey="WixCA" DllEntry="WixQuietExec" Execute="immediate" Return="ignore"/>
+ 
+        <CustomAction Id='LaunchFile2' Directory="INSTALLDIR" ExeCommand='"[SystemFolder]cmd.exe" /c "[INSTALLDIR]testfiles\test.bat"' Return='asyncNoWait' />
+
+        <InstallExecuteSequence>			
 			<!-- as we run this after InstallFinalize a failure would not result in a rollback
-			     hence we ignore the return value -->
-            <Custom Action='LaunchFile' After='InstallFinalize'>NOT Installed</Custom>
+			     hence we ignore the return value above -->
+            <Custom Action='MyAction.SetProperty' After='InstallFinalize'>NOT Installed</Custom>
+            <Custom Action='LaunchFile1' After='MyAction.SetProperty'>NOT Installed</Custom>
+			
+            <!--Custom Action='LaunchFile2' After='InstallFinalize'>NOT Installed</Custom-->
         </InstallExecuteSequence>
     </Product>
 
@@ -42,19 +42,7 @@
 </Wix>
 
 <!--
-<CustomAction Id="test"
-    ExeCommand="[INSTALLDIR]MyBatch.bat"
-    Directory="INSTALLDIR" Execute="deferred" Return="asyncWait"/>
 
-<InstallExecuteSequence>
-    <Custom Action="test" After="InstallFiles">NOT Installed</Custom>
-</InstallExecuteSequence>
-
-
-<CustomAction Id="RunBat" Directory="INSTALLDIR" ExeCommand='[SystemFolder]\cmd /c "test.bat"' Execute='deferred' Impersonate='no' Return='ignore'/> <InstallExecuteSequence> <Custom Action="RunBat" After="InstallFiles"> NOT (REMOVE~="ALL") </Custom> </InstallExecuteSequence> works for me. – Prasad Nov 8 '19 at 8:15 
-
-
-https://wixtoolset.org/documentation/manual/v3/customactions/qtexec.html
-
+things to cobider: Execute="deferred" or "commit" on CustomAction, also Impersonate
 
 -->

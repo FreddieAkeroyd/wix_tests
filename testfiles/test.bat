@@ -1,1 +1,1 @@
-notepad %~dp0\README.txt
+start /min notepad %~dp0\README.txt
